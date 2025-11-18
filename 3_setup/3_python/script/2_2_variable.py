@@ -1,3 +1,3 @@
 a = 11
-s = 'aは10以上' if a>10 else 'aは10未満'
+s = 'a는 10 이상' if a>10 else 'a는 10 미만'
 print(s)

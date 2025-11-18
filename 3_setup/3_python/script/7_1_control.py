@@ -1,5 +1,5 @@
 num = 5
 if num >= 10:
-    print('numが10以上') # 条件が成立
+    print('num이 10 이상') # 조건이 성립
 else:
-    print('numが10未満') # 条件が未成立
+    print('num이 10 미만') # 조건이 미성립

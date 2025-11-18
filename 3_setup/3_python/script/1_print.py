@@ -1,2 +1,2 @@
-# 「Hello World」の表示
+# 「Hello World」 출력
 print('Hello World')
