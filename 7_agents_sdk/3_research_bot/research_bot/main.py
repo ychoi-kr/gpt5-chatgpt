@@ -3,9 +3,9 @@ from .manager import ResearchManager
 
 # main
 async def main() -> None:
-    query = input("何を研究したいですか?")
+    query = input("무엇을 연구하고 싶으세요?")
     await ResearchManager().run(query)
 
-# mainの実行
+# main 실행
 if __name__ == "__main__":
     asyncio.run(main())

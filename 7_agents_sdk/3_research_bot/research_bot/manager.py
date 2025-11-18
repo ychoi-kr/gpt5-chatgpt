@@ -8,14 +8,14 @@ from .agents.search_agent import search_agent
 from .agents.writer_agent import ReportData, writer_agent
 from .printer import Printer
 
-# リサーチマネージャ
+# 리서치 매니저
 class ResearchManager:
-    # 初期化
+    # 초기화
     def __init__(self):
         self.console = Console()
         self.printer = Printer(self.console)
 
-    # リサーチの実行
+    # 리서치 실행
     async def run(self, query: str) -> None:
         trace_id = gen_trace_id()
         with trace("Research trace", trace_id=trace_id):
@@ -33,13 +33,13 @@ class ResearchManager:
                 hide_checkmark=True,
             )
 
-            # Web検索のプランの作成
+            # 웹 검색 계획 생성
             search_plan = await self._plan_searches(query)
 
-            # 検索クエリの実行
+            # 검색 쿼리 실행
             search_results = await self._perform_searches(search_plan)
 
-            # レポートの作成
+            # 리포트 작성
             report = await self._write_report(query, search_results)
 
             final_report = f"Report summary\n\n{report.short_summary}"
@@ -53,12 +53,12 @@ class ResearchManager:
         follow_up_questions = "\n".join(report.follow_up_questions)
         print(f"Follow up questions: {follow_up_questions}")
 
-    # Web検索のプランの作成
+    # 웹 검색 계획 생성
     async def _plan_searches(self, query: str) -> WebSearchPlan:
         self.printer.update_item("planning", "Planning searches...")
         result = await Runner.run(
             planner_agent,
-            f"クエリ: {query}",
+            f"쿼리: {query}",
         )
         self.printer.update_item(
             "planning",
@@ -67,7 +67,7 @@ class ResearchManager:
         )
         return result.final_output_as(WebSearchPlan)
 
-    # 検索クエリの実行
+    # 검색 쿼리 실행
     async def _perform_searches(self, search_plan: WebSearchPlan) -> list[str]:
         with custom_span("Search the web"):
             self.printer.update_item("searching", "Searching...")
@@ -85,9 +85,9 @@ class ResearchManager:
             self.printer.mark_item_done("searching")
             return results
 
-    # 個別の検索クエリの実行
+    # 개별 검색 쿼리 실행
     async def _search(self, item: WebSearchItem) -> str | None:
-        input = f"検索ワード: {item.query}\n検索理由: {item.reason}"
+        input = f"검색어: {item.query}\n검색 이유: {item.reason}"
         try:
             result = await Runner.run(
                 search_agent,
@@ -97,10 +97,10 @@ class ResearchManager:
         except Exception:
             return None
 
-    # レポートの作成
+    # 리포트 작성
     async def _write_report(self, query: str, search_results: list[str]) -> ReportData:
         self.printer.update_item("writing", "Thinking about report...")
-        input = f"オリジナルクエリ: {query}\n要約された検索結果: {search_results}"
+        input = f"원본 쿼리: {query}\n요약된 검색 결과: {search_results}"
         result = Runner.run_streamed(
             writer_agent,
             input,

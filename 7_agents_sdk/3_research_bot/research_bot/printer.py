@@ -3,16 +3,16 @@ from rich.console import Console, Group
 from rich.live import Live
 from rich.spinner import Spinner
 
-# プリンター
+# 프린터
 class Printer:
-    # 初期化
+    # 초기화
     def __init__(self, console: Console):
         self.live = Live(console=console)
         self.items: dict[str, tuple[str, bool]] = {}
         self.hide_done_ids: set[str] = set()
         self.live.start()
 
-    # 指定した項目の内容の更新
+    # 지정한 항목의 내용 업데이트
     def update_item(
         self, item_id: str, content: str, is_done: bool = False, hide_checkmark: bool = False
     ) -> None:
@@ -21,12 +21,12 @@ class Printer:
             self.hide_done_ids.add(item_id)
         self.flush()
 
-    # 指定した項目を完了に変更
+    # 지정한 항목을 완료로 변경
     def mark_item_done(self, item_id: str) -> None:
         self.items[item_id] = (self.items[item_id][0], True)
         self.flush()
 
-    # ライブ表示の更新
+    # 라이브 표시 업데이트
     def flush(self) -> None:
         renderables: list[Any] = []
         for item_id, (content, is_done) in self.items.items():
@@ -37,6 +37,6 @@ class Printer:
                 renderables.append(Spinner("dots", text=content))
         self.live.update(Group(*renderables))
 
-    # ライブ表示の停止
+    # 라이브 표시 중지
     def end(self) -> None:
         self.live.stop()

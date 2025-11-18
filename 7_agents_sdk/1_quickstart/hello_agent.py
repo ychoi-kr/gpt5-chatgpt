@@ -1,11 +1,11 @@
 from agents import Agent, Runner
 
-# エージェントの作成
+# 에이전트 생성
 agent = Agent(
-    name="Assistant", 
-    instructions="あなたは英語を日本語に翻訳するアシスタントです。"
+    name="Assistant",
+    instructions="당신은 영어를 한국어로 번역하는 어시스턴트입니다."
 )
 
-# エージェントの実行
+# 에이전트 실행
 result = Runner.run_sync(agent, "I am a cat.")
 print(result.final_output)
