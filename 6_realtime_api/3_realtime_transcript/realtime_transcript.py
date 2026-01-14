@@ -20,7 +20,7 @@ def base64_to_pcm16(base64_audio: str) -> bytes:
     return base64.b64decode(base64_audio)
 
 # 음성 입력 태스크
-async def send_audio(websocket: websockets.WebSocketClientProtocol, stream, chunk_size: int):
+async def send_audio(websocket, stream, chunk_size: int):
      # 마이크에서 음성을 읽어오는 함수
     def read_audio_block():
         try:
@@ -50,7 +50,7 @@ async def send_audio(websocket: websockets.WebSocketClientProtocol, stream, chun
         await asyncio.sleep(0)
 
 # 텍스트 변환 출력 태스크
-async def receive_transcript(websocket: websockets.WebSocketClientProtocol):
+async def receive_transcript(websocket):
     # 출력 태스크 루프
     while True:
         # 서버로부터 WebSocket 메시지 수신
